@@ -33,7 +33,7 @@ public class OrderItem {
     }
 
 
-    public Product getProject(){
+    public Product getProduct(){
         return id.getProduct();
     }
 
