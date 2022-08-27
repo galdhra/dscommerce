@@ -9,9 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-
 @Service
 public class ProductService {
 
@@ -20,10 +17,8 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id){
-        Optional<Product> result = repository.findById(id);
-        Product product = result.get();
-        ProductDTO dto = new ProductDTO(product);
-        return dto;
+        Product product = repository.findById(id) . get();
+        return new ProductDTO(product);
     }
 
     @Transactional(readOnly = true)
@@ -49,6 +44,14 @@ public class ProductService {
 
         return new ProductDTO(entity);
     }
+
+    @Transactional
+    public void delete(Long id){
+        repository.deleteById(id);
+    }
+
+
+
 
     private void copyDtoToEntity(ProductDTO dto, Product entity) {
         entity.setName(dto.getName());
