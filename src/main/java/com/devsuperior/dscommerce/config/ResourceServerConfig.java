@@ -2,6 +2,7 @@ package com.devsuperior.dscommerce.config;
 
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.*;
 import org.springframework.security.config.annotation.web.builders.*;
 import org.springframework.security.oauth2.config.annotation.web.configuration.*;
 import org.springframework.security.oauth2.config.annotation.web.configurers.*;
@@ -13,6 +14,7 @@ import java.util.*;
 
 @Configuration
 @EnableResourceServer
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Autowired
@@ -20,8 +22,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Autowired
     private JwtTokenStore tokenStore;
-
-    private static final String[] PUBLIC = { "/oauth/token", "/h2-console/**" };
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
@@ -36,9 +36,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
             http.headers().frameOptions().disable();
         }
 
-        http.authorizeRequests()
-                .antMatchers(PUBLIC).permitAll()
-                .anyRequest().authenticated();
+        http.authorizeRequests().anyRequest().permitAll();
     }
 
 
